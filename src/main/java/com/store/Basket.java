@@ -1,5 +1,6 @@
 package com.store;
 
+public class Basket {
 
-public class Store {
 }
+
