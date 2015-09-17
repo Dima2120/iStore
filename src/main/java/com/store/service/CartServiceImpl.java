@@ -19,11 +19,17 @@ public class CartServiceImpl implements CartService {
     }
 
     public void addProduct(Product product) {
+        for (Product prod : cart.getProducts()) {
+            if (prod.equals(product)) {
+                prod.setQuantity(prod.getQuantity() + 1);
+                return;
+            }
+        }
         cart.getProducts().add(product);
-
     }
 
     public void removeProduct(Integer product) {
+
 
     }
 
@@ -32,13 +38,31 @@ public class CartServiceImpl implements CartService {
     }
 
     public void removeProduct(Product product) {
-        cart.getProducts().remove(product);
-
+        for (Product prod : cart.getProducts()) {
+            if (prod.equals(product)) {
+                if (prod.getQuantity() > 1) {
+                    prod.setQuantity(prod.getQuantity() - 1);
+                } else {
+                    cart.getProducts().remove(product);
+                }
+                return;
+            }
+        }
+        System.out.println("Product not found id: " + product.getProductId());
     }
+
     public List<Product> findAll() {
         return cart.getProducts();
 
 
+    }
+
+    public Integer subTotal() {
+        Integer totalPrice = 0;
+        for (Product product : cart.getProducts()) {
+            totalPrice += product.getPrice() * product.getQuantity();
+        }
+        return totalPrice;
     }
 
 }

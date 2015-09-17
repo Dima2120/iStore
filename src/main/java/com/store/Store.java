@@ -38,42 +38,49 @@ public class Store {
         System.out.println("Enter number of product to add it to the cart");
         CartServiceImpl cartService = new CartServiceImpl();
 
-        while (true) {
-            for (java.util.Map.Entry<Integer, Product> entry : listProducts.entrySet()) {
-                Product product = entry.getValue();
-                System.out.println("Product #" + product.getProductId() + " | " + product.getTitle() + " | " + product.getPrice() + "$");
-                System.out.println("- see the cart enter [0]");
-                Integer scr = scanner.nextInt();
-                if (scr == 0) {
-                    System.out.println("You cart :");
-                    for (Product prod : cartService.findAll()) {
-                        System.out.println("Product #" + product.getProductId() + " | " + product.getTitle() + " | " + product.getPrice() + "$");
-                    }
-                    System.out.println();
-                    break;
-                } else {
-                    cartService.addProduct(listProducts.get(scr));
-                }
-
-
-            }
+        for (java.util.Map.Entry<Integer, Product> entry : listProducts.entrySet()) {
+            Product product = entry.getValue();
+            System.out.println("Product #" + product.getProductId() + " | " + product.getTitle() + " | " + product.getPrice() + "$");
         }
+        while (true) {
+            System.out.println("- see the cart enter [show]");
+            System.out.println("- to delete the product press [del {id}]");
+            String scr = scanner.nextLine();
+            if (scr.contains("del")) {
+                Integer id = Integer.parseInt(scr.split(" ")[1]);
+                Product delProduct = listProducts.get(id);
+                cartService.removeProduct(delProduct);
+            } else if (scr.equals("show")) {
+                System.out.println("You cart :");
+                for (Product prod : cartService.findAll()) {
+                    System.out.println("Product #" + prod.getProductId() + " | " + prod.getTitle() + " | " + " Quantity: [" + prod.getQuantity() + "] | " + prod.getPrice() + "$");
+                }
+                System.out.println("Sum of products :" + cartService.subTotal());
+                System.out.println();
+                break;
+            } else {
+                cartService.addProduct(listProducts.get(Integer.parseInt(scr)));
+            }
+            System.out.println();
+        }
+
 
     }
 
     private static HashMap<Integer, Product> initStore() {
         Category category = new Category();
-        category.setTitle("Fruits");
-        Product product = new Product();
-        product.setTitle("Apple");
-        product.setCategory(category);
-        product.setQuantity(1);
-        product.setProductId(1);
-        product.setPrice(100);
-
         HashMap<Integer, Product> listProducts = new HashMap<Integer, Product>();
-        listProducts.put(product.getProductId(), product);
+        category.setTitle("Fruits");
+        for (int i = 1; i < 11; i++) {
+            Product product = new Product();
+            product.setTitle("Apple# " + i);
+            product.setCategory(category);
+            product.setQuantity(1);
+            product.setProductId(i);
+            product.setPrice(100);
 
+            listProducts.put(product.getProductId(), product);
+        }
         return listProducts;
     }
 
