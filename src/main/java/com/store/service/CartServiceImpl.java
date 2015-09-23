@@ -64,5 +64,8 @@ public class CartServiceImpl implements CartService {
         }
         return totalPrice;
     }
+    public Cart getCart() {
+        return cart;
+    }
 
 }

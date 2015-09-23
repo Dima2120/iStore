@@ -5,8 +5,9 @@ import java.util.List;
 public class Customer {
     private String login;
     private Short password;
-    private List<Cart> carts;
+    private Cart carts;
     private Integer cash;
+
 
     public String getLogin() {
         return login;
@@ -23,11 +24,11 @@ public class Customer {
     public void setPassword(Short password) {
         this.password = password;
     }
-    public List getCarts() {
+    public Cart getCarts() {
         return carts;
     }
 
-    public void setCarts(List carts) {
+    public void setCarts(Cart carts) {
         this.carts = carts;
     }
 
